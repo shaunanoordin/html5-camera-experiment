@@ -15,20 +15,36 @@ Starter tempalte for JS projects
 //==============================================================================
 class App {
   constructor() {
+    this.html = {
+      video: document.getElementById("live-video"),
+      console: document.getElementById("console"),
+    };
+    
+    navigator.mediaDevices &&
     navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
     .then((stream) => {
-      console.log("STREAM OK", stream);
+      console.log("VIDEO OK", stream);
+      this.print("VIDEO OK");
       
-      const htmlVideo = document.getElementById("live-video");
-      htmlVideo.srcObject = stream;
-      htmlVideo.onloadedmetadata = function(e) {
-        htmlVideo.play();
+      this.html.video.srcObject = stream;
+      this.html.video.onloadedmetadata = (e) => {
+        this.html.video.play();
       };
-      
     })
     .catch((err) => {
       console.error(err);
+      this.print("VIDEO ERROR");
     });
+  }
+  
+  print(msg) {
+    const p = document.createElement("p");
+    p.innerHTML = msg;
+    this.html.console.appendChild(p);
+  }
+  
+  clear() {
+    this.html.console.innerHTML = "";
   }
 }
 //==============================================================================

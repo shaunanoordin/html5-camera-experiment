@@ -55,3 +55,7 @@ table th {
   padding: 1em;
   background: #fff;
 }
+#live-video {
+  display: block;
+  width: 100%;
+}

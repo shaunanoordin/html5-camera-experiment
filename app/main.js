@@ -46,6 +46,8 @@
 
 	"use strict";
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/*  
@@ -63,21 +65,47 @@
 	/*  Primary App Class
 	 */
 	//==============================================================================
-	var App = function App() {
-	  _classCallCheck(this, App);
+	var App = function () {
+	  function App() {
+	    var _this = this;
 
-	  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function (stream) {
-	    console.log("STREAM OK", stream);
+	    _classCallCheck(this, App);
 
-	    var htmlVideo = document.getElementById("live-video");
-	    htmlVideo.srcObject = stream;
-	    htmlVideo.onloadedmetadata = function (e) {
-	      htmlVideo.play();
+	    this.html = {
+	      video: document.getElementById("live-video"),
+	      console: document.getElementById("console")
 	    };
-	  }).catch(function (err) {
-	    console.error(err);
-	  });
-	};
+
+	    navigator.mediaDevices && navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function (stream) {
+	      console.log("VIDEO OK", stream);
+	      _this.print("VIDEO OK");
+
+	      _this.html.video.srcObject = stream;
+	      _this.html.video.onloadedmetadata = function (e) {
+	        _this.html.video.play();
+	      };
+	    }).catch(function (err) {
+	      console.error(err);
+	      _this.print("VIDEO ERROR");
+	    });
+	  }
+
+	  _createClass(App, [{
+	    key: "print",
+	    value: function print(msg) {
+	      var p = document.createElement("p");
+	      p.innerHTML = msg;
+	      this.html.console.appendChild(p);
+	    }
+	  }, {
+	    key: "clear",
+	    value: function clear() {
+	      this.html.console.innerHTML = "";
+	    }
+	  }]);
+
+	  return App;
+	}();
 	//==============================================================================
 
 	/*  Initialisations
