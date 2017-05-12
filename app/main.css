@@ -55,7 +55,32 @@ table th {
   padding: 1em;
   background: #fff;
 }
-#live-video {
+#live-media {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border: 1px solid #f00;
+}
+#live-media #video {
+  flex: 1 1 50%;
+  width: 50%;
+  height: 50%;
+  border: 1px solid #333;
+}
+#live-media #canvas {
+  flex: 1 1 50%;
+  width: 50%;
+  height: 50%;
+  border: 1px solid #333;
+}
+#capture-button {
   display: block;
   width: 100%;
+  margin: 0.5em auto;
+  padding: 1em;
+  border: none;
+  border-radius: 1em;
+  background: #c33;
+  color: #fff;
+  cursor: pointer;
 }

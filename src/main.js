@@ -14,9 +14,15 @@ Starter tempalte for JS projects
 class App {
   constructor() {
     this.html = {
-      video: document.getElementById("live-video"),
+      video: document.getElementById("video"),
+      canvas: document.getElementById("canvas"),
       console: document.getElementById("console"),
+      captureButton: document.getElementById("capture-button"),
     };
+    
+    this.context = this.html.canvas.getContext("2d"),
+    this.videoWidth = 0;
+    this.videoHeight = 0;
     
     navigator.mediaDevices &&
     navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
@@ -27,12 +33,28 @@ class App {
       this.html.video.srcObject = stream;
       this.html.video.onloadedmetadata = (e) => {
         this.html.video.play();
+        this.videoWidth = this.html.video.videoWidth;
+        this.videoHeight = this.html.video.videoHeight;
+        this.html.canvas.width = this.videoWidth;
+        this.html.canvas.height = this.videoHeight;
+        this.print('Video size is ' + this.videoWidth + 'x' + this.videoHeight);
       };
     })
     .catch((err) => {
       console.error(err);
       this.print("VIDEO ERROR");
     });
+    
+    this.html.captureButton.onclick = () => {
+      this.captureImage();
+      this.print("SNAPSHOT!");
+    };
+  }
+  
+  captureImage() {
+    if (this.videoWidth > 0 && this.videoHeight > 0) {
+      this.context.drawImage(this.html.video, 0, 0, this.videoWidth, this.videoHeight);
+    }
   }
   
   print(msg) {

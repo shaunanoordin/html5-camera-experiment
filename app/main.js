@@ -70,9 +70,14 @@
 	    _classCallCheck(this, App);
 
 	    this.html = {
-	      video: document.getElementById("live-video"),
-	      console: document.getElementById("console")
+	      video: document.getElementById("video"),
+	      canvas: document.getElementById("canvas"),
+	      console: document.getElementById("console"),
+	      captureButton: document.getElementById("capture-button")
 	    };
+
+	    this.context = this.html.canvas.getContext("2d"), this.videoWidth = 0;
+	    this.videoHeight = 0;
 
 	    navigator.mediaDevices && navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function (stream) {
 	      console.log("VIDEO OK", stream);
@@ -81,14 +86,31 @@
 	      _this.html.video.srcObject = stream;
 	      _this.html.video.onloadedmetadata = function (e) {
 	        _this.html.video.play();
+	        _this.videoWidth = _this.html.video.videoWidth;
+	        _this.videoHeight = _this.html.video.videoHeight;
+	        _this.html.canvas.width = _this.videoWidth;
+	        _this.html.canvas.height = _this.videoHeight;
+	        _this.print('Video size is ' + _this.videoWidth + 'x' + _this.videoHeight);
 	      };
 	    }).catch(function (err) {
 	      console.error(err);
 	      _this.print("VIDEO ERROR");
 	    });
+
+	    this.html.captureButton.onclick = function () {
+	      _this.captureImage();
+	      _this.print("SNAPSHOT!");
+	    };
 	  }
 
 	  _createClass(App, [{
+	    key: "captureImage",
+	    value: function captureImage() {
+	      if (this.videoWidth > 0 && this.videoHeight > 0) {
+	        this.context.drawImage(this.html.video, 0, 0, this.videoWidth, this.videoHeight);
+	      }
+	    }
+	  }, {
 	    key: "print",
 	    value: function print(msg) {
 	      var p = document.createElement("p");
