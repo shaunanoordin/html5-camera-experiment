@@ -2,6 +2,11 @@
 
 An experiment to capture video on a HTML5 web app.
 
+## References
+
+* Dev Ref: [navigator.MediaDevices.getUserMedia()](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)
+* Tutorial: [Taking still photos with WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Taking_still_photos)
+
 ## Development
 
 * This is a web app built on HTML5, JavaScript and CSS.
