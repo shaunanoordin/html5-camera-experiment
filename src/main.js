@@ -8,19 +8,27 @@ Starter tempalte for JS projects
 ********************************************************************************
  */
 
-import {ImportExample} from "./importExample.js";
+//import {ImportExample} from "./importExample.js";
 
 /*  Primary App Class
  */
 //==============================================================================
 class App {
   constructor() {
-    let importExample = new ImportExample("HI THERE");
-    
-    this.console = document.getElementById("console");
-    this.console.innerHTML =
-      "This is a starter template for JS projects. <br>" +
-      importExample.getText();
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+    .then((stream) => {
+      console.log("STREAM OK", stream);
+      
+      const htmlVideo = document.getElementById("live-video");
+      htmlVideo.srcObject = stream;
+      htmlVideo.onloadedmetadata = function(e) {
+        htmlVideo.play();
+      };
+      
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   }
 }
 //==============================================================================
